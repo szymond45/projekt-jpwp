@@ -17,6 +17,8 @@ public class Window extends JFrame {
         p.setLayout(new GridLayout(7,3));
 
         ImageIcon start_photo = new ImageIcon("start.png");
+        ImageIcon level_photo = new ImageIcon("level.png");
+        ImageIcon exit_photo = new ImageIcon("exit.png");
 
         p.add(new JLabel(""));
         p.add(new JLabel(""));
@@ -26,6 +28,7 @@ public class Window extends JFrame {
         JButton start = new JButton("Start");
         start.setIcon(start_photo);
         p.add(start);
+        start.addActionListener(new Start_listener());
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -33,7 +36,10 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
-        p.add(new JButton("Level select"));
+        JButton level_select = new JButton("Level Select");
+        level_select.setIcon(level_photo);
+        p.add(level_select);
+        level_select.addActionListener(new Level_listener());
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -41,7 +47,10 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
-        p.add(new JButton("Exit"));
+        JButton exit = new JButton("Exit");
+        exit.setIcon(exit_photo);
+        p.add(exit);
+        exit.addActionListener(new exit_listener());
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -49,5 +58,22 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
 
         add(p);
+    }
+}
+class Start_listener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Start");
+    }
+}
+
+class Level_listener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Level");
+    }
+}
+
+class exit_listener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        System.exit(0);
     }
 }
