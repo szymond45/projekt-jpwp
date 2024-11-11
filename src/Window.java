@@ -3,13 +3,21 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Window extends JFrame {
-    Window(String windowTitle) {
+    public JPanel main_menu;
+    public CardLayout menu_layout;
+    public Window(String windowTitle) {
         super(windowTitle);
         setResizable(false);
         setSize(1280,1024);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+
+        menu_layout = new CardLayout();
+        main_menu = new JPanel(menu_layout);
+
         Init_start_menu();
+        Init_game_menu();
+        Init_level_menu();
+        add(main_menu);
     }
 
     private void Init_start_menu() {
@@ -56,24 +64,39 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
         p.add(new JLabel(""));
         p.add(new JLabel(""));
+        main_menu.add(p, "start menu");
+    }
 
-        add(p);
+    private void Init_game_menu(){
+        Game_window game_menu = new Game_window(menu_layout, main_menu);
+        main_menu.add(game_menu, "game menu");
     }
-}
-class Start_listener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Start");
+
+    private void Init_level_menu(){
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(7,3));
+        p.add(new JButton("Level Select"));
+        main_menu.add(p, "level menu");
     }
+
+    class Start_listener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Start");
+            menu_layout.show(main_menu, "game menu");
+        }
+    }
+
+    class Level_listener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Level");
+            menu_layout.show(main_menu, "level menu");
+        }
+    }
+
+    static class exit_listener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
 }
 
-class Level_listener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Level");
-    }
-}
-
-class exit_listener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-    }
 }
