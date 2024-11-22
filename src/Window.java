@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class Window extends JFrame {
     public JPanel main_menu;
     public CardLayout menu_layout;
+    private Game_window game_menu;
     public Window(String windowTitle) {
         super(windowTitle);
         setResizable(false);
@@ -68,7 +69,7 @@ public class Window extends JFrame {
     }
 
     private void Init_game_menu(){
-        Game_window game_menu = new Game_window(menu_layout, main_menu);
+        game_menu = new Game_window(menu_layout, main_menu);
         main_menu.add(game_menu, "game menu");
     }
 
@@ -83,6 +84,7 @@ public class Window extends JFrame {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Start");
             menu_layout.show(main_menu, "game menu");
+            game_menu.timer_begin();
         }
     }
 
