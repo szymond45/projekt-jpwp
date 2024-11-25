@@ -6,6 +6,7 @@ import java.util.TimerTask;
 public class Game_window extends JPanel {
     private JButton menu_button;
     private JButton hint_button;
+    private JButton confirm_button;
     private JLabel time;
     private int time_spent;
     private Timer timer;
@@ -23,14 +24,30 @@ public class Game_window extends JPanel {
 
     private void add_buttons(){
         menu_button = new JButton("menu");
-        menu_button.setBounds(665, 886, 600, 100);
+        menu_button.setBounds(622, 886, 322, 100);
+        menu_button.setIcon(new ImageIcon("Resources/Menu.png"));
+        menu_button.setOpaque(false);
+        menu_button.setRolloverEnabled(false);
+
         hint_button = new JButton("hint");
-        hint_button.setBounds(300, 886, 365, 100);
+        hint_button.setBounds(300, 886, 322, 100);
+        hint_button.setIcon(new ImageIcon("Resources/Hint.png"));
+        hint_button.setOpaque(false);
+        hint_button.setRolloverEnabled(false);
+
+        confirm_button = new JButton("confirm");
+        confirm_button.setBounds(944, 886, 322, 100);
+        confirm_button.setIcon(new ImageIcon("Resources/Confirm.png"));
+        confirm_button.setOpaque(false);
+        confirm_button.setRolloverEnabled(false);
+
         //Będzie można dodać obwódkę tekstu
         time = new JLabel("time: 0s");
         time.setBounds(100,886,300,100);
         time.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
+
+        add(confirm_button);
         add(menu_button);
         add(time);
         add(hint_button);
@@ -40,6 +57,8 @@ public class Game_window extends JPanel {
         menu_button.addActionListener(e -> {
             timer_end();
             menu_layout.show(main_menu, "start menu");
+            drawing_field.circles.clear();
+            drawing_field.connections.clear();
         });
     }
 

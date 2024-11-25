@@ -4,8 +4,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 public class Drawing_field extends JPanel {
-    private List<Circle> circles;
-    private List<Connection> connections;
+    public List<Circle> circles;
+    public List<Connection> connections;
     private Circle selected_Circle;
     private Circle first_circle;
     private int offsetX, offsetY;
@@ -125,7 +125,7 @@ public class Drawing_field extends JPanel {
         }
     }
 
-    private static class Circle {
+    public static class Circle {
         int x, y, radius;
         Image image;
 
@@ -143,7 +143,7 @@ public class Drawing_field extends JPanel {
         }
     }
 
-    private static class Connection {
+    public static class Connection {
         Circle circle_1, circle_2;
 
         public Connection(Circle circle_1, Circle circle_2) {

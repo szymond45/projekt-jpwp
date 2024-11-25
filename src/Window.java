@@ -6,6 +6,9 @@ public class Window extends JFrame {
     public JPanel main_menu;
     public CardLayout menu_layout;
     private Game_window game_menu;
+    private JButton start;
+    private JButton level_select;
+    private JButton exit;
     public Window(String windowTitle) {
         super(windowTitle);
         setResizable(false);
@@ -18,6 +21,7 @@ public class Window extends JFrame {
         Init_start_menu();
         Init_game_menu();
         Init_level_menu();
+        add_listeners();
         add(main_menu);
     }
 
@@ -25,19 +29,19 @@ public class Window extends JFrame {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(7,3));
 
-        ImageIcon start_photo = new ImageIcon("start.png");
-        ImageIcon level_photo = new ImageIcon("level.png");
-        ImageIcon exit_photo = new ImageIcon("exit.png");
 
         p.add(new JLabel(""));
         p.add(new JLabel(""));
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
-        JButton start = new JButton("Start");
-        start.setIcon(start_photo);
+
+        start = new JButton("Start");
+        start.setIcon(new ImageIcon("Resources/start.png"));
+        start.setOpaque(false);
+        start.setRolloverEnabled(false);
         p.add(start);
-        start.addActionListener(new Start_listener());
+
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -45,10 +49,13 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
-        JButton level_select = new JButton("Level Select");
-        level_select.setIcon(level_photo);
+
+        level_select = new JButton("Level Select");
+        level_select.setIcon(new ImageIcon("Resources/level.png"));
+        level_select.setOpaque(false);
+        level_select.setRolloverEnabled(false);
         p.add(level_select);
-        level_select.addActionListener(new Level_listener());
+
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -56,10 +63,13 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
-        JButton exit = new JButton("Exit");
-        exit.setIcon(exit_photo);
+
+        exit = new JButton("Exit");
+        exit.setIcon(new ImageIcon("Resources/exit.png"));
+        exit.setOpaque(false);
+        exit.setRolloverEnabled(false);
         p.add(exit);
-        exit.addActionListener(new exit_listener());
+
         p.add(new JLabel(""));
 
         p.add(new JLabel(""));
@@ -80,25 +90,19 @@ public class Window extends JFrame {
         main_menu.add(p, "level menu");
     }
 
-    class Start_listener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+    private void add_listeners(){
+        start.addActionListener(e -> {
             System.out.println("Start");
             menu_layout.show(main_menu, "game menu");
             game_menu.timer_begin();
-        }
-    }
+        });
 
-    class Level_listener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+        level_select.addActionListener(e -> {
             System.out.println("Level");
             menu_layout.show(main_menu, "level menu");
-        }
-    }
+        });
 
-    static class exit_listener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
-        }
-}
+        exit.addActionListener(e -> System.exit(0));
+    }
 
 }
