@@ -3,10 +3,14 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 
 public class Atoms extends JPanel {
-    private Image selectedImage;
+    private Image selected_image;
+    private String selected_name;
     private JCheckBox Coal;
     private JCheckBox Hydrogen;
     private JCheckBox Connections;
+    private JCheckBox Nitrogen;
+    private JCheckBox Oxygen;
+    private JCheckBox Sulphur;
 
     public Atoms() {
         setLayout(null);
@@ -33,8 +37,32 @@ public class Atoms extends JPanel {
         Hydrogen.setRolloverEnabled(false);
         add(Hydrogen);
 
+        Oxygen = new JCheckBox("Oxygen");
+        Oxygen.setBounds(160, 0, 84, 80);
+        Oxygen.setIcon(new ImageIcon("Resources/Oxygen.png"));
+        Oxygen.setSelectedIcon(new ImageIcon("Resources/Oxygen_selected.png"));
+        Oxygen.setOpaque(false);
+        Oxygen.setRolloverEnabled(false);
+        add(Oxygen);
+
+        Nitrogen = new JCheckBox("Nitrogen");
+        Nitrogen.setBounds(240, 0, 84, 80);
+        Nitrogen.setIcon(new ImageIcon("Resources/Nitrogen.png"));
+        Nitrogen.setSelectedIcon(new ImageIcon("Resources/Nitrogen_selected.png"));
+        Nitrogen.setOpaque(false);
+        Nitrogen.setRolloverEnabled(false);
+        add(Nitrogen);
+
+        Sulphur = new JCheckBox("Sulphur");
+        Sulphur.setBounds(320, 0, 84, 80);
+        Sulphur.setIcon(new ImageIcon("Resources/Sulphur.png"));
+        Sulphur.setSelectedIcon(new ImageIcon("Resources/Sulphur_selected.png"));
+        Sulphur.setOpaque(false);
+        Sulphur.setRolloverEnabled(false);
+        add(Sulphur);
+
         Connections = new JCheckBox("Connections");
-        Connections.setBounds(160, 0, 84, 80);
+        Connections.setBounds(400, 0, 84, 80);
         Connections.setIcon(new ImageIcon("Resources/Connection.png"));
         Connections.setSelectedIcon(new ImageIcon("Resources/Connection_selected.png"));
         Connections.setOpaque(false);
@@ -45,17 +73,25 @@ public class Atoms extends JPanel {
     private void add_listeners(){
         Coal.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-            selectedImage = ((ImageIcon) Coal.getIcon()).getImage();
+            selected_image = ((ImageIcon) Coal.getIcon()).getImage();
+            selected_name = "Coal";
             Hydrogen.setSelected(false);
             Connections.setSelected(false);
+            Oxygen.setSelected(false);
+            Sulphur.setSelected(false);
+            Nitrogen.setSelected(false);
             }
         });
 
         Hydrogen.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                selectedImage = ((ImageIcon) Hydrogen.getIcon()).getImage();
+                selected_image = ((ImageIcon) Hydrogen.getIcon()).getImage();
+                selected_name = "Hydrogen";
                 Coal.setSelected(false);
                 Connections.setSelected(false);
+                Oxygen.setSelected(false);
+                Sulphur.setSelected(false);
+                Nitrogen.setSelected(false);
             }
         });
 
@@ -63,16 +99,59 @@ public class Atoms extends JPanel {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 Coal.setSelected(false);
                 Hydrogen.setSelected(false);
+                Oxygen.setSelected(false);
+                Sulphur.setSelected(false);
+                Nitrogen.setSelected(false);
+            }
+        });
+
+        Oxygen.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                selected_image = ((ImageIcon) Oxygen.getIcon()).getImage();
+                selected_name = "Oxygen";
+                Coal.setSelected(false);
+                Hydrogen.setSelected(false);
+                Connections.setSelected(false);
+                Sulphur.setSelected(false);
+                Nitrogen.setSelected(false);
+            }
+        });
+
+        Nitrogen.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                selected_image = ((ImageIcon) Nitrogen.getIcon()).getImage();
+                selected_name = "Nitrogen";
+                Coal.setSelected(false);
+                Hydrogen.setSelected(false);
+                Connections.setSelected(false);
+                Oxygen.setSelected(false);
+                Sulphur.setSelected(false);
+            }
+        });
+
+        Sulphur.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                selected_image = ((ImageIcon) Sulphur.getIcon()).getImage();
+                selected_name = "Sulphur";
+                Coal.setSelected(false);
+                Hydrogen.setSelected(false);
+                Connections.setSelected(false);
+                Oxygen.setSelected(false);
+                Nitrogen.setSelected(false);
             }
         });
     }
 
 
     public Image get_image() {
-        return selectedImage;
+        return selected_image;
     }
 
     public boolean connection_mode() {
         return Connections.isSelected();
+    }
+
+    public String get_name() {
+        return selected_name;
     }
 }

@@ -7,6 +7,7 @@ public class Game_window extends JPanel {
     private JButton menu_button;
     private JButton hint_button;
     private JButton confirm_button;
+    private JLabel level_label;
     private JLabel time;
     private int time_spent;
     private Timer timer;
@@ -41,7 +42,12 @@ public class Game_window extends JPanel {
         confirm_button.setOpaque(false);
         confirm_button.setRolloverEnabled(false);
 
-        //Będzie można dodać obwódkę tekstu
+        //Będzie można dodać obwódkę tekstu i by nie było na białym tle
+        level_label = new JLabel("Make C2H6");
+        level_label.setBounds(720, 0, 320, 80);
+        level_label.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        //Będzie można dodać obwódkę tekstu i by nie było na białym tle
         time = new JLabel("time: 0s");
         time.setBounds(100,886,300,100);
         time.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -51,6 +57,7 @@ public class Game_window extends JPanel {
         add(menu_button);
         add(time);
         add(hint_button);
+        add(level_label);
     }
 
     private void Add_listeners(CardLayout menu_layout, JPanel main_menu) {
@@ -84,7 +91,7 @@ public class Game_window extends JPanel {
         atoms.setBounds(-4, 0, 1024, 80);
 
         drawing_field = new Drawing_field(atoms);
-        drawing_field.setBounds(-4, 80, 1365, 804);
+        drawing_field.setBounds(-4, 80, 1365, 806);
 
         add(atoms);
         add(drawing_field);

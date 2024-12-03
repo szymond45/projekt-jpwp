@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class Drawing_field extends JPanel {
     public List<Circle> circles;
     public List<Connection> connections;
@@ -20,7 +21,7 @@ public class Drawing_field extends JPanel {
         add_listeners();
     }
 
-    public void add_listeners() {
+    private void add_listeners() {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (selected_Circle != null) {
@@ -34,22 +35,6 @@ public class Drawing_field extends JPanel {
         this.addMouseListener(new MouseAdapter() {
 
             public void mousePressed(MouseEvent e) {
-                //Connect 2 cirles
-                if (atoms.connection_mode()) {
-                    for (Circle circle : circles) {
-                        if (circle.contains(e.getX(), e.getY())) {
-                            if (first_circle == null) {
-                                first_circle = circle;
-                            } else {
-                                connections.add(new Connection(first_circle, circle));
-                                first_circle = null;
-                                repaint();
-                                break;
-                            }
-                        }
-                    }
-                }
-
                 //move a circle
                 if(!atoms.connection_mode()) {
                     for (Circle circle : circles) {
@@ -69,11 +54,67 @@ public class Drawing_field extends JPanel {
 
             // Create a circle
             public void mouseClicked(MouseEvent e) {
-                if (!atoms.connection_mode()) {
-                    Image image = atoms.get_image();
-                    if (image != null) {
-                        circles.add(new Circle(e.getX(), e.getY(), 50, image));
-                        repaint();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (!atoms.connection_mode()) {
+                        if (atoms.get_image() != null) {
+                            circles.add(new Circle(e.getX(), e.getY(), 50, atoms.get_image(), atoms.get_name()));
+                            repaint();
+                        }
+                    }
+
+                    //Connect 2 cirles
+                    if (atoms.connection_mode()) {
+                        for (Circle circle : circles) {
+                            if (circle.contains(e.getX(), e.getY())) {
+                                if (first_circle == null) {
+                                    first_circle = circle;
+                                } else {
+                                    connections.add(new Connection(first_circle, circle));
+                                    first_circle = null;
+                                    repaint();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //remove circle
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    if (!atoms.connection_mode()){
+                        for (Circle circle : circles){
+                            if (circle.contains(e.getX(), e.getY())){
+                                circles.remove(circle);
+                                selected_Circle = null;
+                                repaint();
+                                break;
+                            }
+                        }
+                    }
+
+                    //remove a connection
+                    if (atoms.connection_mode()) {
+                        for (Circle circle : circles) {
+                            if (circle.contains(e.getX(), e.getY())) {
+                                if (first_circle == null) {
+                                    first_circle = circle;
+                                } else {
+                                    for (Connection connection : connections) {
+                                        if(connection.circle_1 == circle && connection.circle_2 == first_circle){
+                                            connections.remove(connection);
+                                            break;
+                                        }
+                                        if(connection.circle_2 == circle && connection.circle_1 == first_circle){
+                                            connections.remove(connection);
+                                            break;
+                                        }
+                                    }
+                                    first_circle = null;
+                                    repaint();
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -84,6 +125,9 @@ public class Drawing_field extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
+
+        Image paper = new ImageIcon("Resources/paper.png").getImage();
+        graphics2D.drawImage(paper, 0, 0, getWidth(), getHeight(), null);
 
         // draw circle connection
         graphics2D.setColor(Color.BLACK);
@@ -125,15 +169,18 @@ public class Drawing_field extends JPanel {
         }
     }
 
+
     public static class Circle {
         int x, y, radius;
         Image image;
+        String name;
 
-        public Circle(int x, int y, int radius, Image image) {
+        public Circle(int x, int y, int radius, Image image, String name) {
             this.x = x;
             this.y = y;
             this.radius = radius;
             this.image = image;
+            this.name = name;
         }
 
         public boolean contains(int mouse_x, int mouse_y) {
