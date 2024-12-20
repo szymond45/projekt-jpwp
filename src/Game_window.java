@@ -13,6 +13,7 @@ public class Game_window extends JPanel {
     private Timer timer;
     private Drawing_field drawing_field;
     private Atoms atoms;
+    private Check_levels check_levels;
 
     public Game_window(CardLayout menu_layout, JPanel main_menu) {
         setLayout(null);
@@ -64,6 +65,7 @@ public class Game_window extends JPanel {
         menu_button.addActionListener(e -> {
             timer_end();
             menu_layout.show(main_menu, "start menu");
+            check_levels.check_level(1);
             drawing_field.circles.clear();
             drawing_field.connections.clear();
         });
@@ -92,6 +94,8 @@ public class Game_window extends JPanel {
 
         drawing_field = new Drawing_field(atoms);
         drawing_field.setBounds(-4, 80, 1365, 806);
+
+        check_levels = new Check_levels(drawing_field);
 
         add(atoms);
         add(drawing_field);

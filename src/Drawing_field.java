@@ -69,7 +69,13 @@ public class Drawing_field extends JPanel {
                                 if (first_circle == null) {
                                     first_circle = circle;
                                 } else {
-                                    connections.add(new Connection(first_circle, circle));
+                                    if (check_connections(circle) == 0){
+                                        connections.add(new Connection(first_circle, circle, 0));
+                                    }else if(check_connections(circle) == 1){
+                                        connections.add(new Connection(first_circle, circle, 10));
+                                    }else if(check_connections(circle) == 2){
+                                        connections.add(new Connection(first_circle, circle, -10));
+                                    }
                                     first_circle = null;
                                     repaint();
                                     break;
@@ -84,6 +90,7 @@ public class Drawing_field extends JPanel {
                     if (!atoms.connection_mode()){
                         for (Circle circle : circles){
                             if (circle.contains(e.getX(), e.getY())){
+                                connections.removeIf(connection -> connection.circle_1 == circle || connection.circle_2 == circle);
                                 circles.remove(circle);
                                 selected_Circle = null;
                                 repaint();
@@ -121,6 +128,19 @@ public class Drawing_field extends JPanel {
         });
     }
 
+    private int check_connections(Circle circle){
+        int counter = 0;
+        for (Connection connection : connections) {
+            if(connection.circle_1 == circle && connection.circle_2 == first_circle){
+                counter++;
+            }
+            if(connection.circle_2 == circle && connection.circle_1 == first_circle){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -133,10 +153,10 @@ public class Drawing_field extends JPanel {
         graphics2D.setColor(Color.BLACK);
         for (Connection connection : connections) {
             graphics2D.drawLine(
-                    connection.circle_1.x,
-                    connection.circle_1.y,
-                    connection.circle_2.x,
-                    connection.circle_2.y
+                    connection.circle_1.x + connection.offset,
+                    connection.circle_1.y + connection.offset,
+                    connection.circle_2.x + connection.offset,
+                    connection.circle_2.y + connection.offset
             );
         }
 
@@ -192,10 +212,12 @@ public class Drawing_field extends JPanel {
 
     public static class Connection {
         Circle circle_1, circle_2;
+        private int offset;
 
-        public Connection(Circle circle_1, Circle circle_2) {
+        public Connection(Circle circle_1, Circle circle_2, int offset) {
             this.circle_1 = circle_1;
             this.circle_2 = circle_2;
+            this.offset = offset;
         }
     }
 }
