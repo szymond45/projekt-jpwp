@@ -68,7 +68,7 @@ public class Drawing_field extends JPanel {
                             if (circle.contains(e.getX(), e.getY())) {
                                 if (first_circle == null) {
                                     first_circle = circle;
-                                } else {
+                                } else if (first_circle != circle) {
                                     if (check_connections(circle) == 0){
                                         connections.add(new Connection(first_circle, circle, 0));
                                     }else if(check_connections(circle) == 1){
@@ -79,7 +79,7 @@ public class Drawing_field extends JPanel {
                                     first_circle = null;
                                     repaint();
                                     break;
-                                }
+                                }else first_circle = null;
                             }
                         }
                     }
@@ -126,6 +126,10 @@ public class Drawing_field extends JPanel {
                 }
             }
         });
+    }
+
+    public void just_repaint(){
+        repaint();
     }
 
     private int check_connections(Circle circle){

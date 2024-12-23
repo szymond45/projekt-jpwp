@@ -44,7 +44,7 @@ public class Game_window extends JPanel {
         confirm_button.setRolloverEnabled(false);
 
         //Będzie można dodać obwódkę tekstu i by nie było na białym tle
-        level_label = new JLabel("Make C2H6");
+        level_label = new JLabel("Stwórz H2O");
         level_label.setBounds(720, 0, 320, 80);
         level_label.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
@@ -65,9 +65,18 @@ public class Game_window extends JPanel {
         menu_button.addActionListener(e -> {
             timer_end();
             menu_layout.show(main_menu, "start menu");
-            check_levels.check_level(1);
             drawing_field.circles.clear();
             drawing_field.connections.clear();
+            drawing_field.just_repaint();
+        });
+        confirm_button.addActionListener(e -> {
+            if(!check_levels.check_level(check_levels.level_unlocked)) {
+                level_updater();
+                drawing_field.circles.clear();
+                drawing_field.connections.clear();
+                drawing_field.just_repaint();
+            }
+            System.out.println(check_levels.level_unlocked);
         });
     }
 
@@ -95,10 +104,30 @@ public class Game_window extends JPanel {
         drawing_field = new Drawing_field(atoms);
         drawing_field.setBounds(-4, 80, 1365, 806);
 
-        check_levels = new Check_levels(drawing_field);
+        check_levels = new Check_levels(drawing_field,1);
 
         add(atoms);
         add(drawing_field);
+    }
+
+    private void level_updater(){
+        int level_number = check_levels.level_unlocked;
+        switch (level_number){
+            case 1:
+                level_label.setText("Stwórz: H20");
+                break;
+            case 2:
+                level_label.setText("Stwórz: CH4");
+                break;
+            case 3:
+                level_label.setText("Stwórz: CO2");
+                break;
+            case 4:
+                level_label.setText("Stwórz: amoniak");
+                break;
+            case 5:
+                level_label.setText("Stwórz: kwas siarkowy VI");
+        }
     }
 }
 
