@@ -14,12 +14,15 @@ public class Game_window extends JPanel {
     private Drawing_field drawing_field;
     private Atoms atoms;
     private Check_levels check_levels;
+    private JPanel hint_panel;
+    private JLabel hint_label;
 
     public Game_window(CardLayout menu_layout, JPanel main_menu) {
         setLayout(null);
         add_buttons();
         Add_listeners(menu_layout, main_menu);
         add_drawing_field();
+        add_hint_panel(menu_layout, main_menu);
 
         time_spent = 0;
     }
@@ -78,6 +81,10 @@ public class Game_window extends JPanel {
             }
             System.out.println(check_levels.level_unlocked);
         });
+        hint_button.addActionListener(e -> {
+            edit_hint_panel();
+            menu_layout.show(main_menu, "hint menu");
+        });
     }
 
     public void timer_begin(){
@@ -110,6 +117,55 @@ public class Game_window extends JPanel {
         add(drawing_field);
     }
 
+    private void add_hint_panel(CardLayout menu_layout, JPanel main_menu) {
+        hint_panel = new JPanel();
+        hint_panel.setLayout(null);
+
+        hint_label = new JLabel();
+        hint_label.setBounds(0, 0, 1280, 1024);
+
+        JButton back_button = new JButton("Back");
+        back_button.setBounds(944, 886, 322, 100);
+        back_button.addActionListener(e -> menu_layout.show(main_menu, "game menu"));
+        hint_panel.add(back_button);
+
+        hint_panel.setComponentZOrder(back_button, 0);
+        hint_panel.setComponentZOrder(hint_label, 1);
+
+        hint_panel.add(hint_label);
+        main_menu.add(hint_panel, "hint menu");
+    }
+
+    private void edit_hint_panel(){
+        switch (check_levels.level_unlocked){
+            case 1:
+                hint_label.setIcon(new ImageIcon("Resources/hint1.png"));
+                break;
+            case 2:
+                hint_label.setIcon(new ImageIcon("Resources/hint2.png"));
+                break;
+            case 3:
+                hint_label.setIcon(new ImageIcon("Resources/hint3.png"));
+                break;
+            case 4:
+                hint_label.setIcon(new ImageIcon("Resources/hint4.png"));
+                break;
+            case 5:
+                hint_label.setIcon(new ImageIcon("Resources/hint5.png"));
+                break;
+            case 6:
+                hint_label.setIcon(new ImageIcon("Resources/hint6.png"));
+                break;
+            case 7:
+                hint_label.setIcon(new ImageIcon("Resources/hint7.png"));
+                break;
+            case 8:
+                hint_label.setIcon(new ImageIcon("Resources/hint8.png"));
+                break;
+
+        }
+    }
+
     private void level_updater(){
         int level_number = check_levels.level_unlocked;
         switch (level_number){
@@ -127,6 +183,15 @@ public class Game_window extends JPanel {
                 break;
             case 5:
                 level_label.setText("Stwórz: kwas siarkowy VI");
+                break;
+            case 6:
+                level_label.setText("Stwórz: C2H6O");
+                break;
+            case 7:
+                level_label.setText("Stwórz: CH3COOH");
+                break;
+            case 8:
+                level_label.setText("Stwórz: benzen");
         }
     }
 }

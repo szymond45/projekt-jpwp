@@ -11,7 +11,6 @@ public class Check_levels {
         this.drawing_field = drawing_field;
         this.level_unlocked = level_unlocked;
     }
-
     public boolean check_level(int level) {
         boolean error = false;
         List<Integer> atom_count = new ArrayList<>();
@@ -45,9 +44,6 @@ public class Check_levels {
 
     private boolean check_atoms(List<Integer> atom_count, List<String> atom_names, int level, List<String> connection_names, List<Integer> connection_count) {
         boolean error = false;
-        int connection_sum1 = 0;
-        int connection_sum2 = 0;
-        int connection_sum3 = 0;
         if (level == 1) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Hydrogen", 2, "Oxygen", 1);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Hydrogen", "Oxygen", 2);
@@ -106,6 +102,45 @@ public class Check_levels {
             if (error) {
                 System.out.println("error");
             }else if (level_unlocked == 5){
+                level_unlocked++;
+            }
+            System.out.println(atom_count);
+            System.out.println(atom_names);
+            System.out.println(connection_names);
+            System.out.println(connection_count);
+        }
+        if (level == 6) {
+            error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 2, "Hydrogen", 6, "Oxygen", 1);
+            if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 5, "Oxygen", "Coal", 1, "Hydrogen", "Oxygen", 1);
+            if (error) {
+                System.out.println("error");
+            }else if (level_unlocked == 6){
+                level_unlocked++;
+            }
+            System.out.println(atom_count);
+            System.out.println(atom_names);
+            System.out.println(connection_names);
+            System.out.println(connection_count);
+        }
+        if (level == 7) {
+            error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 2, "Oxygen", 2, "Hydrogen", 4);
+            if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 3, "Oxygen", "Coal", 3, "Hydrogen", "Oxygen", 1);
+            if (error) {
+                System.out.println("error");
+            }else if (level_unlocked == 7){
+                level_unlocked++;
+            }
+            System.out.println(atom_count);
+            System.out.println(atom_names);
+            System.out.println(connection_names);
+            System.out.println(connection_count);
+        }
+        if (level == 8) {
+            error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 6,"Hydrogen", 6);
+            if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 9, "Hydrogen", "Coal", 6);
+            if (error) {
+                System.out.println("error");
+            }else if (level_unlocked == 8){
                 level_unlocked++;
             }
             System.out.println(atom_count);
@@ -228,7 +263,6 @@ public class Check_levels {
             boolean error = false;
             int connection_sum = 0;
             int connection_sum2 = 0;
-            int connection_sum3 = 0;
             for (String connection_name : connection_names) {
                 if (connection_name.equals(a1+a2) || connection_name.equals(a2+a1)) {
                     connection_sum =  connection_sum + connection_count.get(connection_names.indexOf(connection_name));
@@ -269,6 +303,38 @@ public class Check_levels {
             }else if (connection_sum2 != n2){
                 error = true;
             }else if (connection_sum3 != n3){
+                error = true;
+            }
+            return error;
+        }
+
+        private boolean check_atom_connections(List<String> connection_names, List<Integer> connection_count, String a1, String a2, int n1, String a3, String a4, int n2, String a5, String a6, int n3, String a7, String a8, int n4){
+            boolean error = false;
+            int connection_sum = 0;
+            int connection_sum2 = 0;
+            int connection_sum3 = 0;
+            int connection_sum4 = 0;
+            for (String connection_name : connection_names) {
+                if (connection_name.equals(a1+a2) || connection_name.equals(a2+a1)) {
+                    connection_sum =  connection_sum + connection_count.get(connection_names.indexOf(connection_name));
+                }else if(connection_name.equals(a3+a4) || connection_name.equals(a4+a3)) {
+                    connection_sum2 =  connection_sum2 + connection_count.get(connection_names.indexOf(connection_name));
+                }else if(connection_name.equals(a5+a6) || connection_name.equals(a6+a5)){
+                    connection_sum3 =  connection_sum3 + connection_count.get(connection_names.indexOf(connection_name));
+                }else if(connection_name.equals(a7+a8) || connection_name.equals(a8+a7)){
+                    connection_sum4 =  connection_sum4 + connection_count.get(connection_names.indexOf(connection_name));
+                } else{
+                    error = true;
+                    break;
+                }
+            }
+            if ( connection_sum != n1) {
+                error = true;
+            }else if (connection_sum2 != n2){
+                error = true;
+            }else if (connection_sum3 != n3){
+                error = true;
+            }else if (connection_sum4 != n4){
                 error = true;
             }
             return error;
