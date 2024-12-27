@@ -11,7 +11,7 @@ public class Game_window extends JPanel {
     private JLabel time;
     private JLabel time2;
     private int time_spent;
-    private Timer timer;
+    public Timer timer;
     public Drawing_field drawing_field;
     private Atoms atoms;
     public Check_levels check_levels;
@@ -28,6 +28,7 @@ public class Game_window extends JPanel {
         add_drawing_field();
         add_hint_menu(menu_layout, main_menu);
         add_intermission_menu(menu_layout, main_menu);
+        add_end_menu(menu_layout, main_menu);
 
         time_spent = 0;
     }
@@ -88,7 +89,12 @@ public class Game_window extends JPanel {
                     drawing_field.connections.clear();
                     drawing_field.just_repaint();
                     menu_layout.show(main_menu, "intermission menu");
-                }else {
+                }else if(check_levels.current_level == 9){
+                    drawing_field.circles.clear();
+                    drawing_field.connections.clear();
+                    drawing_field.just_repaint();
+                    menu_layout.show(main_menu, "end menu");
+                } else {
                     level_updater();
                     drawing_field.circles.clear();
                     drawing_field.connections.clear();
@@ -98,6 +104,7 @@ public class Game_window extends JPanel {
             }else{
                 show_answer_label(2);
             }
+            menu_layout.show(main_menu, "end menu");
             System.out.println(check_levels.level_unlocked);
             System.out.println(check_levels.current_level);
         });
@@ -133,7 +140,7 @@ public class Game_window extends JPanel {
         drawing_field = new Drawing_field(atoms);
         drawing_field.setBounds(-4, 80, 1365, 806);
 
-        check_levels = new Check_levels(drawing_field,1);
+        check_levels = new Check_levels(drawing_field,8);
 
         add(atoms);
         add(drawing_field);
@@ -148,6 +155,9 @@ public class Game_window extends JPanel {
 
         JButton back_button = new JButton("Back");
         back_button.setBounds(944, 886, 322, 100);
+        back_button.setIcon(new ImageIcon("Resources/back.png"));
+        back_button.setOpaque(false);
+        back_button.setRolloverEnabled(false);
         back_button.addActionListener(e -> menu_layout.show(main_menu, "game menu"));
         hint_menu.add(back_button);
 
@@ -181,7 +191,7 @@ public class Game_window extends JPanel {
 
         JButton continue_button = new JButton("continue");
         continue_button.setBounds(450, 600, 322, 100);
-        continue_button.setIcon(new ImageIcon("Resources/Continue.png"));
+        continue_button.setIcon(new ImageIcon("Resources/continue.png"));
         continue_button.setOpaque(false);
         continue_button.setRolloverEnabled(false);
         continue_button.addActionListener(e -> {
@@ -208,6 +218,42 @@ public class Game_window extends JPanel {
         intermission_menu.add(lelel_text2);
 
         main_menu.add(intermission_menu, "intermission menu");
+    }
+
+    private void add_end_menu(CardLayout menu_layout, JPanel main_menu) {
+        JPanel end_menu = new JPanel(){
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon background = new ImageIcon("Resources/start_bg.png");
+                g.drawImage(background.getImage(), 0, 0, 1280, 1024, this);
+            }
+        };
+
+        end_menu.setLayout(null);
+
+        JButton menu_button = new JButton("menu");
+        menu_button.setBounds(450, 400, 322, 100);
+        menu_button.setIcon(new ImageIcon("Resources/Menu.png"));
+        menu_button.setOpaque(false);
+        menu_button.setRolloverEnabled(false);
+        menu_button.addActionListener(e -> {
+            timer_end();
+            menu_layout.show(main_menu, "start menu");
+            drawing_field.circles.clear();
+            drawing_field.connections.clear();
+            drawing_field.just_repaint();
+            check_levels.current_level = 1;
+            level_updater();
+        });
+        end_menu.add(menu_button);
+
+        JLabel level_text = new JLabel("Gratulację!!! ukończyłeś wszystkie poziomy możesz wrócić do menu");
+        level_text.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        level_text.setBounds(50, 0, 1280, 100);
+        level_text.setForeground(Color.BLACK);
+        end_menu.add(level_text);
+
+        main_menu.add(end_menu, "end menu");
     }
 
     private void show_answer_label(int answer){

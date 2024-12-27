@@ -26,9 +26,14 @@ public class Window extends JFrame {
     }
 
     private void Init_start_menu() {
-        JPanel p = new JPanel();
-        p.setLayout(new GridLayout(7,3));
-
+        JPanel p = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon background = new ImageIcon("Resources/start_bg.png");
+                g.drawImage(background.getImage(), 0, 0, 1280, 1024, this);
+            }
+        };
+        p.setLayout(new GridLayout(7, 3));
 
         p.add(new JLabel(""));
         p.add(new JLabel(""));
@@ -75,8 +80,10 @@ public class Window extends JFrame {
         p.add(new JLabel(""));
         p.add(new JLabel(""));
         p.add(new JLabel(""));
+
         main_menu.add(p, "start menu");
     }
+
 
     private void Init_game_menu(){
         game_menu = new Game_window(menu_layout, main_menu);
@@ -112,10 +119,17 @@ public class Window extends JFrame {
     }
 
     private void Init_level_menu(){
-        JPanel p = new JPanel();
+        JPanel p = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon background = new ImageIcon("Resources/start_bg.png");
+                g.drawImage(background.getImage(), 0, 0, 1280, 1024, this);
+            }
+        };
+
         p.setLayout(null);
         JButton level_1 = new JButton("Level 1");
-        level_1.setIcon(new ImageIcon("Resources/level.png"));
+        level_1.setIcon(new ImageIcon("Resources/level1.png"));
         level_1.setOpaque(false);
         level_1.setRolloverEnabled(false);
         level_1.setBounds(175,200,150,150);
@@ -123,7 +137,7 @@ public class Window extends JFrame {
         p.add(level_1);
 
         JButton level_2 = new JButton("Level 2");
-        level_2.setIcon(new ImageIcon("Resources/level.png"));
+        level_2.setIcon(new ImageIcon("Resources/level2.png"));
         level_2.setOpaque(false);
         level_2.setRolloverEnabled(false);
         level_2.setBounds(425,200,150,150);
@@ -131,7 +145,7 @@ public class Window extends JFrame {
         p.add(level_2);
 
         JButton level_3 = new JButton("Level 3");
-        level_3.setIcon(new ImageIcon("Resources/level.png"));
+        level_3.setIcon(new ImageIcon("Resources/level3.png"));
         level_3.setOpaque(false);
         level_3.setRolloverEnabled(false);
         level_3.setBounds(675,200,150,150);
@@ -139,7 +153,7 @@ public class Window extends JFrame {
         p.add(level_3);
 
         JButton level_4 = new JButton("Level 4");
-        level_4.setIcon(new ImageIcon("Resources/level.png"));
+        level_4.setIcon(new ImageIcon("Resources/level4.png"));
         level_4.setOpaque(false);
         level_4.setRolloverEnabled(false);
         level_4.setBounds(925,200,150,150);
@@ -147,7 +161,7 @@ public class Window extends JFrame {
         p.add(level_4);
 
         JButton level_5 = new JButton("Level 5");
-        level_5.setIcon(new ImageIcon("Resources/level.png"));
+        level_5.setIcon(new ImageIcon("Resources/level5.png"));
         level_5.setOpaque(false);
         level_5.setRolloverEnabled(false);
         level_5.setBounds(175,400,150,150);
@@ -155,7 +169,7 @@ public class Window extends JFrame {
         p.add(level_5);
 
         JButton level_6 = new JButton("Level 6");
-        level_6.setIcon(new ImageIcon("Resources/level.png"));
+        level_6.setIcon(new ImageIcon("Resources/level6.png"));
         level_6.setOpaque(false);
         level_6.setRolloverEnabled(false);
         level_6.setBounds(425,400,150,150);
@@ -163,7 +177,7 @@ public class Window extends JFrame {
         p.add(level_6);
 
         JButton level_7 = new JButton("Level 7");
-        level_7.setIcon(new ImageIcon("Resources/level.png"));
+        level_7.setIcon(new ImageIcon("Resources/level7.png"));
         level_7.setOpaque(false);
         level_7.setRolloverEnabled(false);
         level_7.setBounds(675,400,150,150);
@@ -171,7 +185,7 @@ public class Window extends JFrame {
         p.add(level_7);
 
         JButton level_8 = new JButton("Level 8");
-        level_8.setIcon(new ImageIcon("Resources/level.png"));
+        level_8.setIcon(new ImageIcon("Resources/level8.png"));
         level_8.setOpaque(false);
         level_8.setRolloverEnabled(false);
         level_8.setBounds(925,400,150,150);
@@ -185,6 +199,9 @@ public class Window extends JFrame {
 
         JButton back_button = new JButton("Back");
         back_button.setBounds(944, 886, 322, 100);
+        back_button.setIcon(new ImageIcon("Resources/back.png"));
+        back_button.setOpaque(false);
+        back_button.setRolloverEnabled(false);
         back_button.addActionListener(e -> menu_layout.show(main_menu, "start menu"));
         p.add(back_button);
 

@@ -150,6 +150,8 @@ public class Drawing_field extends JPanel {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         Image paper = new ImageIcon("Resources/paper.png").getImage();
         graphics2D.drawImage(paper, 0, 0, getWidth(), getHeight(), null);
 
