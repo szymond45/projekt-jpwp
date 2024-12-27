@@ -4,6 +4,7 @@ import java.util.List;
 public class Check_levels {
     private Drawing_field drawing_field;
     public int level_unlocked;
+    public int current_level = 1;
     Check_atom_names check_atom_names = new Check_atom_names();
     Check_atom_connections check_atom_connections = new Check_atom_connections();
 
@@ -49,8 +50,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Hydrogen", "Oxygen", 2);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 1){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 1) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -62,8 +66,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Hydrogen", "Coal", 4);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 2){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 2) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -75,8 +82,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Oxygen", 4);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 3){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 3) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -88,8 +98,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Nitrogen", "Hydrogen", 3);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 4){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 4) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -101,8 +114,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Oxygen", "Sulphur", 6, "Hydrogen", "Oxygen", 2);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 5){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 5) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -114,8 +130,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 5, "Oxygen", "Coal", 1, "Hydrogen", "Oxygen", 1);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 6){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 6) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -127,8 +146,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 3, "Oxygen", "Coal", 3, "Hydrogen", "Oxygen", 1);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 7){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 7) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);
@@ -140,8 +162,11 @@ public class Check_levels {
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 9, "Hydrogen", "Coal", 6);
             if (error) {
                 System.out.println("error");
-            }else if (level_unlocked == 8){
-                level_unlocked++;
+            }else {
+                if (level_unlocked == 8) {
+                    level_unlocked++;
+                }
+                current_level++;
             }
             System.out.println(atom_count);
             System.out.println(atom_names);

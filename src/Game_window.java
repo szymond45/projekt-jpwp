@@ -9,20 +9,25 @@ public class Game_window extends JPanel {
     private JButton confirm_button;
     private JLabel level_label;
     private JLabel time;
+    private JLabel time2;
     private int time_spent;
     private Timer timer;
-    private Drawing_field drawing_field;
+    public Drawing_field drawing_field;
     private Atoms atoms;
-    private Check_levels check_levels;
-    private JPanel hint_panel;
+    public Check_levels check_levels;
+    private JPanel hint_menu;
     private JLabel hint_label;
+    private JLabel answer_label;
+    private JPanel intermission_menu;
+    private int check_completion = 0;
 
     public Game_window(CardLayout menu_layout, JPanel main_menu) {
         setLayout(null);
         add_buttons();
         Add_listeners(menu_layout, main_menu);
         add_drawing_field();
-        add_hint_panel(menu_layout, main_menu);
+        add_hint_menu(menu_layout, main_menu);
+        add_intermission_menu(menu_layout, main_menu);
 
         time_spent = 0;
     }
@@ -71,18 +76,33 @@ public class Game_window extends JPanel {
             drawing_field.circles.clear();
             drawing_field.connections.clear();
             drawing_field.just_repaint();
+            check_levels.current_level = 1;
+            level_updater();
+            if (answer_label != null)remove(answer_label);
         });
         confirm_button.addActionListener(e -> {
-            if(!check_levels.check_level(check_levels.level_unlocked)) {
-                level_updater();
-                drawing_field.circles.clear();
-                drawing_field.connections.clear();
-                drawing_field.just_repaint();
+            if(!check_levels.check_level(check_levels.current_level)) {
+                if(check_levels.current_level == 6 && check_completion == 0){
+                    level_updater();
+                    drawing_field.circles.clear();
+                    drawing_field.connections.clear();
+                    drawing_field.just_repaint();
+                    menu_layout.show(main_menu, "intermission menu");
+                }else {
+                    level_updater();
+                    drawing_field.circles.clear();
+                    drawing_field.connections.clear();
+                    drawing_field.just_repaint();
+                    show_answer_label(1);
+                }
+            }else{
+                show_answer_label(2);
             }
             System.out.println(check_levels.level_unlocked);
+            System.out.println(check_levels.current_level);
         });
         hint_button.addActionListener(e -> {
-            edit_hint_panel();
+            edit_hint_menu();
             menu_layout.show(main_menu, "hint menu");
         });
     }
@@ -94,6 +114,7 @@ public class Game_window extends JPanel {
             public void run() {
                 time_spent++;
                 time.setText("time: " + time_spent + "s");
+                time2.setText("czas w którym udało ci się ukończyć: " + time_spent + "s" + " / 300s");
             }
         }, 1000,1000);
     }
@@ -102,6 +123,7 @@ public class Game_window extends JPanel {
         time_spent = 0;
         timer.cancel();
         time.setText("time: " + time_spent + "s");
+        time2.setText("time: " + time_spent + "s");
     }
 
     private void add_drawing_field(){
@@ -117,9 +139,9 @@ public class Game_window extends JPanel {
         add(drawing_field);
     }
 
-    private void add_hint_panel(CardLayout menu_layout, JPanel main_menu) {
-        hint_panel = new JPanel();
-        hint_panel.setLayout(null);
+    private void add_hint_menu(CardLayout menu_layout, JPanel main_menu) {
+        hint_menu = new JPanel();
+        hint_menu.setLayout(null);
 
         hint_label = new JLabel();
         hint_label.setBounds(0, 0, 1280, 1024);
@@ -127,17 +149,95 @@ public class Game_window extends JPanel {
         JButton back_button = new JButton("Back");
         back_button.setBounds(944, 886, 322, 100);
         back_button.addActionListener(e -> menu_layout.show(main_menu, "game menu"));
-        hint_panel.add(back_button);
+        hint_menu.add(back_button);
 
-        hint_panel.setComponentZOrder(back_button, 0);
-        hint_panel.setComponentZOrder(hint_label, 1);
+        hint_menu.setComponentZOrder(back_button, 0);
+        hint_menu.setComponentZOrder(hint_label, 1);
 
-        hint_panel.add(hint_label);
-        main_menu.add(hint_panel, "hint menu");
+        hint_menu.add(hint_label);
+        main_menu.add(hint_menu, "hint menu");
     }
 
-    private void edit_hint_panel(){
-        switch (check_levels.level_unlocked){
+    private void add_intermission_menu(CardLayout menu_layout, JPanel main_menu) {
+        intermission_menu = new JPanel();
+        intermission_menu.setLayout(null);
+
+        JButton menu_button = new JButton("menu");
+        menu_button.setBounds(450, 400, 322, 100);
+        menu_button.setIcon(new ImageIcon("Resources/Menu.png"));
+        menu_button.setOpaque(false);
+        menu_button.setRolloverEnabled(false);
+        menu_button.addActionListener(e -> {
+            timer_end();
+            menu_layout.show(main_menu, "start menu");
+            drawing_field.circles.clear();
+            drawing_field.connections.clear();
+            drawing_field.just_repaint();
+            check_levels.current_level = 1;
+            check_levels.level_unlocked = 5;
+            level_updater();
+        });
+        intermission_menu.add(menu_button);
+
+        JButton continue_button = new JButton("continue");
+        continue_button.setBounds(450, 600, 322, 100);
+        continue_button.setIcon(new ImageIcon("Resources/Continue.png"));
+        continue_button.setOpaque(false);
+        continue_button.setRolloverEnabled(false);
+        continue_button.addActionListener(e -> {
+            if (time_spent < 300) {
+                menu_layout.show(main_menu, "game menu");
+                check_completion = 1;
+            }
+        });
+
+        intermission_menu.add(continue_button);
+        JLabel level_text = new JLabel("Gratulację ukończyłeś wszystkie poziomy z chemii nieorganicznej");
+        level_text.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        level_text.setBounds(50, 0, 1280, 100);
+        intermission_menu.add(level_text);
+
+        time2 = new JLabel();
+        time2.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+        time2.setBounds(250, 200, 1280, 100);
+        intermission_menu.add(time2);
+
+        JLabel lelel_text2 = new JLabel("Jeżeli udało ci się ukończyć w podanym czasie to odblokowałeś bonusowe poziomy");
+        lelel_text2.setFont(new Font("Times New Roman", Font.PLAIN, 37));
+        lelel_text2.setBounds(20, 100, 1280, 100);
+        intermission_menu.add(lelel_text2);
+
+        main_menu.add(intermission_menu, "intermission menu");
+    }
+
+    private void show_answer_label(int answer){
+        answer_label = new JLabel();
+        if (answer == 1){
+            answer_label.setText("Poprawna odpowiedź");
+            answer_label.setForeground(Color.GREEN);
+        }else{
+            answer_label.setText("Niepoprawna odpowiedź");
+            answer_label.setForeground(Color.RED);
+        }
+        answer_label.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        answer_label.setBounds(450, 400, 500, 100);
+        add(answer_label, 0);
+        setComponentZOrder(answer_label, 0);
+        repaint();
+        revalidate();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                SwingUtilities.invokeLater(() -> {
+                    remove(answer_label);
+                    repaint();
+                    revalidate();
+                });
+            }
+        }, 2000);
+    }
+
+    private void edit_hint_menu(){
+        switch (check_levels.current_level){
             case 1:
                 hint_label.setIcon(new ImageIcon("Resources/hint1.png"));
                 break;
@@ -166,8 +266,8 @@ public class Game_window extends JPanel {
         }
     }
 
-    private void level_updater(){
-        int level_number = check_levels.level_unlocked;
+    public void level_updater(){
+        int level_number = check_levels.current_level;
         switch (level_number){
             case 1:
                 level_label.setText("Stwórz: H20");
