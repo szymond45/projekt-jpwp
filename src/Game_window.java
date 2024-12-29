@@ -10,7 +10,7 @@ public class Game_window extends JPanel {
     private JLabel level_label;
     private JLabel time;
     private JLabel time2;
-    private int time_spent;
+    public int time_spent;
     public Timer timer;
     public Drawing_field drawing_field;
     private Atoms atoms;
@@ -104,7 +104,6 @@ public class Game_window extends JPanel {
             }else{
                 show_answer_label(2);
             }
-            menu_layout.show(main_menu, "end menu");
             System.out.println(check_levels.level_unlocked);
             System.out.println(check_levels.current_level);
         });
@@ -126,7 +125,7 @@ public class Game_window extends JPanel {
         }, 1000,1000);
     }
 
-    private void timer_end(){
+    public void timer_end(){
         time_spent = 0;
         timer.cancel();
         time.setText("time: " + time_spent + "s");
@@ -140,7 +139,7 @@ public class Game_window extends JPanel {
         drawing_field = new Drawing_field(atoms);
         drawing_field.setBounds(-4, 80, 1365, 806);
 
-        check_levels = new Check_levels(drawing_field,8);
+        check_levels = new Check_levels(drawing_field,1);
 
         add(atoms);
         add(drawing_field);
@@ -212,10 +211,10 @@ public class Game_window extends JPanel {
         time2.setBounds(250, 200, 1280, 100);
         intermission_menu.add(time2);
 
-        JLabel lelel_text2 = new JLabel("Jeżeli udało ci się ukończyć w podanym czasie to odblokowałeś bonusowe poziomy");
-        lelel_text2.setFont(new Font("Times New Roman", Font.PLAIN, 37));
-        lelel_text2.setBounds(20, 100, 1280, 100);
-        intermission_menu.add(lelel_text2);
+        JLabel level_text2 = new JLabel("Jeżeli udało ci się ukończyć w podanym czasie to odblokowałeś bonusowe poziomy");
+        level_text2.setFont(new Font("Times New Roman", Font.PLAIN, 37));
+        level_text2.setBounds(20, 100, 1280, 100);
+        intermission_menu.add(level_text2);
 
         main_menu.add(intermission_menu, "intermission menu");
     }

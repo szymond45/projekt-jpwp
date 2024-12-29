@@ -168,7 +168,7 @@ public class Drawing_field extends JPanel {
 
         // draw circles
         for (Circle circle : circles) {
-            graphics2D.setColor(Color.BLACK);
+            graphics2D.setColor(new Color(0,0,0,0));
             graphics2D.drawOval(
                     circle.x - circle.radius,
                     circle.y - circle.radius,

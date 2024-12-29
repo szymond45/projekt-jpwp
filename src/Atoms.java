@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 
 public class Atoms extends JPanel {
-    private Image selected_image;
+    private String selected_image;
     private String selected_name;
     private JCheckBox Coal;
     private JCheckBox Hydrogen;
@@ -73,7 +73,7 @@ public class Atoms extends JPanel {
     private void add_listeners(){
         Coal.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-            selected_image = ((ImageIcon) Coal.getIcon()).getImage();
+            selected_image = "Resources/Coal2.png";
             selected_name = "Coal";
             Hydrogen.setSelected(false);
             Connections.setSelected(false);
@@ -85,7 +85,7 @@ public class Atoms extends JPanel {
 
         Hydrogen.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                selected_image = ((ImageIcon) Hydrogen.getIcon()).getImage();
+                selected_image = "Resources/Hydrogen2.png";
                 selected_name = "Hydrogen";
                 Coal.setSelected(false);
                 Connections.setSelected(false);
@@ -107,7 +107,7 @@ public class Atoms extends JPanel {
 
         Oxygen.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                selected_image = ((ImageIcon) Oxygen.getIcon()).getImage();
+                selected_image = "Resources/Oxygen2.png";
                 selected_name = "Oxygen";
                 Coal.setSelected(false);
                 Hydrogen.setSelected(false);
@@ -119,7 +119,7 @@ public class Atoms extends JPanel {
 
         Nitrogen.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                selected_image = ((ImageIcon) Nitrogen.getIcon()).getImage();
+                selected_image = "Resources/Nitrogen2.png";
                 selected_name = "Nitrogen";
                 Coal.setSelected(false);
                 Hydrogen.setSelected(false);
@@ -131,7 +131,7 @@ public class Atoms extends JPanel {
 
         Sulphur.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                selected_image = ((ImageIcon) Sulphur.getIcon()).getImage();
+                selected_image = "Resources/Sulphur2.png";
                 selected_name = "Sulphur";
                 Coal.setSelected(false);
                 Hydrogen.setSelected(false);
@@ -144,7 +144,10 @@ public class Atoms extends JPanel {
 
 
     public Image get_image() {
-        return selected_image;
+        if (selected_image != null) {
+            return new ImageIcon(selected_image).getImage();
+        }
+        return null;
     }
 
     public boolean connection_mode() {
