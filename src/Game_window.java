@@ -104,8 +104,6 @@ public class Game_window extends JPanel {
             }else{
                 show_answer_label(2);
             }
-            System.out.println(check_levels.level_unlocked);
-            System.out.println(check_levels.current_level);
         });
         hint_button.addActionListener(e -> {
             edit_hint_menu();

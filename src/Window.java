@@ -133,13 +133,11 @@ public class Window extends JFrame {
 
     private void add_listeners(){
         start.addActionListener(e -> {
-            System.out.println("Start");
             menu_layout.show(main_menu, "game menu");
             game_menu.timer_begin();
         });
 
         level_select.addActionListener(e -> {
-            System.out.println("Level");
             menu_layout.show(main_menu, "level menu");
         });
 

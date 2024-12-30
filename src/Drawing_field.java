@@ -34,8 +34,8 @@ public class Drawing_field extends JPanel {
 
         this.addMouseListener(new MouseAdapter() {
 
+            //move a circle
             public void mousePressed(MouseEvent e) {
-                //move a circle
                 if(!atoms.connection_mode()) {
                     for (Circle circle : circles) {
                         if (circle.contains(e.getX(), e.getY())) {

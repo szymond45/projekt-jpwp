@@ -43,11 +43,13 @@ public class Check_levels {
         return error;
     }
 
+
     private boolean check_atoms(List<Integer> atom_count, List<String> atom_names, int level, List<String> connection_names, List<Integer> connection_count) {
         boolean error = false;
         if (level == 1) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Hydrogen", 2, "Oxygen", 1);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Hydrogen", "Oxygen", 2);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -56,14 +58,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 2) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 1, "Hydrogen", 4);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Hydrogen", "Coal", 4);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -72,14 +71,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 3) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 1, "Oxygen", 2);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Oxygen", 4);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -88,14 +84,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 4) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Nitrogen", 1, "Hydrogen", 3);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Nitrogen", "Hydrogen", 3);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -104,14 +97,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 5) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Oxygen", 4, "Hydrogen", 2, "Sulphur", 1);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Oxygen", "Sulphur", 6, "Hydrogen", "Oxygen", 2);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -120,14 +110,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 6) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 2, "Hydrogen", 6, "Oxygen", 1);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 5, "Oxygen", "Coal", 1, "Hydrogen", "Oxygen", 1);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -136,14 +123,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 7) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 2, "Oxygen", 2, "Hydrogen", 4);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 1, "Hydrogen", "Coal", 3, "Oxygen", "Coal", 3, "Hydrogen", "Oxygen", 1);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -152,14 +136,11 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
         }
         if (level == 8) {
             error = check_atom_names.check_atom_names(atom_names, atom_count, "Coal", 6,"Hydrogen", 6);
             if(!error) error = check_atom_connections.check_atom_connections(connection_names, connection_count, "Coal", "Coal", 9, "Hydrogen", "Coal", 6);
+            if(!error) error = check_max_connections();
             if (error) {
                 System.out.println("error");
             }else {
@@ -168,10 +149,77 @@ public class Check_levels {
                 }
                 current_level++;
             }
-            System.out.println(atom_count);
-            System.out.println(atom_names);
-            System.out.println(connection_names);
-            System.out.println(connection_count);
+        }
+        return error;
+    }
+
+    private boolean check_max_connections(){
+        int sum = 0;
+        int sum2 = 0;
+        int sum3 = 0;
+        int sum4 = 0;
+        int sum5 = 0;
+        final String a1 = "Hydrogen";
+        final String a2 = "Oxygen";
+        final String a3 = "Nitrogen";
+        final String a4 = "Sulphur";
+        final String a5 = "Coal";
+        boolean error = false;
+        for (Drawing_field.Circle circle : drawing_field.circles){
+            for (Drawing_field.Connection connection : drawing_field.connections){
+                if (connection.circle_1 == circle || connection.circle_2 == circle) {
+                    switch (circle.name) {
+                        case a1:
+                            sum++;
+                            break;
+                        case a2:
+                            sum2++;
+                            break;
+                        case a3:
+                            sum3++;
+                            break;
+                        case a4:
+                            sum4++;
+                            break;
+                        case a5:
+                            sum5++;
+                            break;
+                    }
+                }
+            }
+            switch (circle.name) {
+                case a1:
+                    if (sum > 1) {
+                        error = true;
+                        break;
+                    } else sum = 0;
+                    break;
+                case a2:
+                    if (sum2 > 2) {
+                        error = true;
+                        break;
+                    } else sum2 = 0;
+                    break;
+                case a3:
+                    if (sum3 > 3) {
+                        error = true;
+                        break;
+                    } else sum3 = 0;
+                    break;
+                case a4:
+                    if (sum4 > 6) {
+                        error = true;
+                        break;
+                    } else sum4 = 0;
+                    break;
+                case a5:
+                    if (sum5 > 4) {
+                        error = true;
+                        break;
+                    } else sum5 = 0;
+                    break;
+            }
+
         }
         return error;
     }
