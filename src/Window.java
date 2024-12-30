@@ -9,7 +9,7 @@ public class Window extends JFrame {
     private JButton start;
     private JButton level_select;
     private JButton exit;
-    private JLabel answer_label;
+    private JLabel message;
     private JPanel level_menu;
     public Window(String windowTitle) {
         super(windowTitle);
@@ -109,26 +109,27 @@ public class Window extends JFrame {
         }
     }
     private void show_answer_label(){
-        answer_label = new JLabel();
+        message = new JLabel();
         JLabel answer_label1 = new JLabel();
         add(answer_label1);
-        answer_label.setText("Nie odblokowałeś jeszcze tego poziomu");
-        answer_label.setForeground(Color.RED);
-        answer_label.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        answer_label.setBounds(450, 600, 500, 100);
-        level_menu.add(answer_label, 0);
-        level_menu.setComponentZOrder(answer_label, 0);
+        message.setText("Nie odblokowałeś jeszcze tego poziomu");
+        message.setForeground(Color.RED);
+        message.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        message.setBounds(450, 600, 500, 100);
+        level_menu.add(message, 0);
+        level_menu.setComponentZOrder(message, 0);
         level_menu.repaint();
         level_menu.revalidate();
         game_menu.timer.schedule(new TimerTask() {
             public void run() {
                 SwingUtilities.invokeLater(() -> {
-                    level_menu.remove(answer_label);
+                    level_menu.remove(message);
                     level_menu.repaint();
                     level_menu.revalidate();
+                    game_menu.timer_end();
                 });
             }
-        }, 2000);
+        }, 500);
     }
 
     private void add_listeners(){
@@ -137,9 +138,7 @@ public class Window extends JFrame {
             game_menu.timer_begin();
         });
 
-        level_select.addActionListener(e -> {
-            menu_layout.show(main_menu, "level menu");
-        });
+        level_select.addActionListener(e -> menu_layout.show(main_menu, "level menu"));
 
         exit.addActionListener(e -> System.exit(0));
     }
@@ -230,8 +229,8 @@ public class Window extends JFrame {
         back_button.setRolloverEnabled(false);
         back_button.addActionListener(e -> {
             menu_layout.show(main_menu, "start menu");
-            if (answer_label != null){
-                level_menu.remove(answer_label);
+            if (message != null){
+                level_menu.remove(message);
                 level_menu.repaint();
                 level_menu.revalidate();
 

@@ -10,7 +10,7 @@ public class Drawing_field extends JPanel {
     private Circle selected_Circle;
     private Circle first_circle;
     private int offsetX, offsetY;
-    private Atoms atoms;
+    private final Atoms atoms;
 
     public Drawing_field(Atoms atoms) {
         this.atoms = atoms;
@@ -218,7 +218,7 @@ public class Drawing_field extends JPanel {
 
     public static class Connection {
         Circle circle_1, circle_2;
-        private int offset;
+        private final int offset;
 
         public Connection(Circle circle_1, Circle circle_2, int offset) {
             this.circle_1 = circle_1;

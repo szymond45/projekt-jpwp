@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Check_levels {
-    private Drawing_field drawing_field;
+    private final Drawing_field drawing_field;
     public int level_unlocked;
     public int current_level = 1;
     Check_atom_names check_atom_names = new Check_atom_names();
@@ -225,7 +225,7 @@ public class Check_levels {
     }
 
     // below: checking atoms on screen and connections between them, a lot of method overrides
-    private class Check_atom_names{
+    private static class Check_atom_names{
         private boolean check_atom_names(List<String> atom_names, List<Integer> atom_count, String a1, int n1, String a2, int n2){
             boolean error = false;
             for (String atom_name : atom_names) {
@@ -278,43 +278,9 @@ public class Check_levels {
             return error;
         }
 
-        private boolean check_atom_names(List<String> atom_names, List<Integer> atom_count, final String a1, int n1, String a2, int n2, String a3, int n3, String a4, int n4){
-            boolean error = false;
-            for (String atom_name : atom_names) {
-                if (!atom_name.equals(a1) && !atom_name.equals(a2) && !atom_name.equals(a3) && !atom_name.equals(a4)) {
-                    error = true;
-                    break;
-                }
-                if (atom_name.equals(a1)) {
-                    if (atom_count.get(atom_names.indexOf(atom_name)) != n1) {
-                        error = true;
-                        break;
-                    }
-                }
-                if (atom_name.equals(a2)) {
-                    if (atom_count.get(atom_names.indexOf(atom_name)) != n2) {
-                        error = true;
-                        break;
-                    }
-                }
-                if (atom_name.equals(a3)) {
-                    if (atom_count.get(atom_names.indexOf(atom_name)) != n3) {
-                        error = true;
-                        break;
-                    }
-                }
-                if (atom_name.equals(a4)) {
-                    if (atom_count.get(atom_names.indexOf(atom_name)) != n4) {
-                        error = true;
-                        break;
-                    }
-                }
-            }
-            return error;
-        }
     }
 
-    private class Check_atom_connections{
+    private static class Check_atom_connections{
         private boolean check_atom_connections(List<String> connection_names, List<Integer> connection_count, String a1, String a2, int n1){
             boolean error = false;
             int connection_sum = 0;
@@ -349,33 +315,6 @@ public class Check_levels {
             if ( connection_sum != n1) {
                 error = true;
             }else if (connection_sum2 != n2){
-                error = true;
-            }
-            return error;
-        }
-
-        private boolean check_atom_connections(List<String> connection_names, List<Integer> connection_count, String a1, String a2, int n1, String a3, String a4, int n2, String a5, String a6, int n3){
-            boolean error = false;
-            int connection_sum = 0;
-            int connection_sum2 = 0;
-            int connection_sum3 = 0;
-            for (String connection_name : connection_names) {
-                if (connection_name.equals(a1+a2) || connection_name.equals(a2+a1)) {
-                    connection_sum =  connection_sum + connection_count.get(connection_names.indexOf(connection_name));
-                }else if(connection_name.equals(a3+a4) || connection_name.equals(a4+a3)) {
-                    connection_sum2 =  connection_sum2 + connection_count.get(connection_names.indexOf(connection_name));
-                }else if(connection_name.equals(a5+a6) || connection_name.equals(a6+a5)){
-                    connection_sum3 =  connection_sum3 + connection_count.get(connection_names.indexOf(connection_name));
-                }else{
-                        error = true;
-                        break;
-                    }
-            }
-            if ( connection_sum != n1) {
-                error = true;
-            }else if (connection_sum2 != n2){
-                error = true;
-            }else if (connection_sum3 != n3){
                 error = true;
             }
             return error;

@@ -13,12 +13,9 @@ public class Game_window extends JPanel {
     public int time_spent;
     public Timer timer;
     public Drawing_field drawing_field;
-    private Atoms atoms;
     public Check_levels check_levels;
-    private JPanel hint_menu;
     private JLabel hint_label;
     private JLabel answer_label;
-    private JPanel intermission_menu;
     private int check_completion = 0;
 
     public Game_window(CardLayout menu_layout, JPanel main_menu) {
@@ -131,7 +128,7 @@ public class Game_window extends JPanel {
     }
 
     private void add_drawing_field(){
-        atoms = new Atoms();
+        Atoms atoms = new Atoms();
         atoms.setBounds(-4, 0, 1024, 80);
 
         drawing_field = new Drawing_field(atoms);
@@ -144,7 +141,7 @@ public class Game_window extends JPanel {
     }
 
     private void add_hint_menu(CardLayout menu_layout, JPanel main_menu) {
-        hint_menu = new JPanel();
+        JPanel hint_menu = new JPanel();
         hint_menu.setLayout(null);
 
         hint_label = new JLabel();
@@ -166,7 +163,7 @@ public class Game_window extends JPanel {
     }
 
     private void add_intermission_menu(CardLayout menu_layout, JPanel main_menu) {
-        intermission_menu = new JPanel();
+        JPanel intermission_menu = new JPanel();
         intermission_menu.setLayout(null);
 
         JButton menu_button = new JButton("menu");
