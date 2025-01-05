@@ -4,8 +4,17 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * klasa odpowiedzialna za stworzenia pola do rysowania atomów, rysowanie atomów i połączeń
+ */
 public class Drawing_field extends JPanel {
+    /**
+     * lista przechowująca obiekty atomów
+     */
     public List<Circle> circles;
+    /**
+     * lista przechowująca obiekty połączeń
+     */
     public List<Connection> connections;
     private Circle selected_Circle;
     private Circle first_circle;
@@ -21,8 +30,15 @@ public class Drawing_field extends JPanel {
         add_listeners();
     }
 
+    /**
+     * metoda odpowiedzialna za dodanie listenerów
+     */
     private void add_listeners() {
         this.addMouseMotionListener(new MouseMotionAdapter() {
+            /**
+             * metoda pozwalająca na przenoszenie atomów, aktualizuje współrzędne, i rysuje je ponownie
+             * @param e the event to be processed
+             */
             public void mouseDragged(MouseEvent e) {
                 if (selected_Circle != null) {
                     selected_Circle.x = e.getX() - offsetX;
@@ -34,7 +50,10 @@ public class Drawing_field extends JPanel {
 
         this.addMouseListener(new MouseAdapter() {
 
-            //move a circle
+            /**
+             * metoda odpowiedzialna za sprawdznie czy myszka jest obecnie nad jakimś atomem i zmiane parametrów
+             * @param e the event to be processed
+             */
             public void mousePressed(MouseEvent e) {
                 if(!atoms.connection_mode()) {
                     for (Circle circle : circles) {
@@ -52,9 +71,13 @@ public class Drawing_field extends JPanel {
                 selected_Circle = null;
             }
 
-            // Create a circle
+            /**
+             * metoda odpowiedzialna za stworznie atomów lub połączeń między nimi
+             * @param e the event to be processed
+             */
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
+                    //create a circle
                     if (!atoms.connection_mode()) {
                         if (atoms.get_image() != null) {
                             circles.add(new Circle(e.getX(), e.getY(), 50, atoms.get_image(), atoms.get_name()));
@@ -85,9 +108,12 @@ public class Drawing_field extends JPanel {
                     }
                 }
 
-                //remove circle
+                /**
+                 * metoda odpowiedzialna za usuwanie atomów i połączeń między nimi
+                 */
                 if (e.getButton() == MouseEvent.BUTTON3){
                     if (!atoms.connection_mode()){
+                        //remove circle
                         for (Circle circle : circles){
                             if (circle.contains(e.getX(), e.getY())){
                                 connections.removeIf(connection -> connection.circle_1 == circle || connection.circle_2 == circle);
@@ -128,10 +154,17 @@ public class Drawing_field extends JPanel {
         });
     }
 
+    /**
+     * metoda odpowiedzialna za odświeżenie pola do rysowania, jest użyta w innych klasa gdzie jest konieczność odświeżenia pola do rysowania
+     */
     public void just_repaint(){
         repaint();
     }
 
+    /**
+     * metoda odpowiedzialna za sprawdznie maksymalnej liczby połaczeń między dwoma atomami
+     * @return liczba połączeń
+     */
     private int check_connections(Circle circle){
         int counter = 0;
         for (Connection connection : connections) {
@@ -145,7 +178,10 @@ public class Drawing_field extends JPanel {
         return counter;
     }
 
-
+    /**
+     * metoda odpowiedzialna za rysowanie atomów, połączeń między nimi
+     * @param g the <code>Graphics</code> object to protect
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
@@ -195,12 +231,22 @@ public class Drawing_field extends JPanel {
         }
     }
 
-
+    /**
+     * klasa, która jest odpowiedzialna za tworzenie obiektów atomów, które są następnie rysowane
+     */
     public static class Circle {
         int x, y, radius;
         Image image;
         String name;
 
+        /**
+         * konstruktor tworzący koło
+         * @param x współrzędna x myszki
+         * @param y współrzędna y myszki
+         * @param radius średnica atomu
+         * @param image grafika atomu
+         * @param name nazwa atomu
+         */
         public Circle(int x, int y, int radius, Image image, String name) {
             this.x = x;
             this.y = y;
@@ -209,6 +255,12 @@ public class Drawing_field extends JPanel {
             this.name = name;
         }
 
+        /**
+         * metoda sprawdzająca czy myszka znajduje się obecnie nad jakimś atomem
+         * @param mouse_x współrzędna x myszki
+         * @param mouse_y współrzedna y myszki
+         * @return true jeżeli myszka znajduje się nad atomem
+         */
         public boolean contains(int mouse_x, int mouse_y) {
             int x_distance = mouse_x - x;
             int y_distance = mouse_y - y;
@@ -216,10 +268,19 @@ public class Drawing_field extends JPanel {
         }
     }
 
+    /**
+     * klasa, która jest odpowiedzialna za tworzenie obiektów połączeń, które są następnie rysowane
+     */
     public static class Connection {
         Circle circle_1, circle_2;
         private final int offset;
 
+        /**
+         * konstruktor tworzący połączenie
+         * @param circle_1 atom 1
+         * @param circle_2 atom 2
+         * @param offset przesuniecie względem środka
+         */
         public Connection(Circle circle_1, Circle circle_2, int offset) {
             this.circle_1 = circle_1;
             this.circle_2 = circle_2;

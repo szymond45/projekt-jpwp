@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 
+/**
+ * Klasa która przechowuje obrazki dla atomów oraz tworzy guziki do wybierania atomów
+ */
 public class Atoms extends JPanel {
     private String selected_image;
     private String selected_name;
@@ -18,6 +21,9 @@ public class Atoms extends JPanel {
         add_listeners();
     }
 
+    /**
+     * metoda tworząca checkboxy do wyboru atomów albo połączenia
+     */
     private void add_checkboxes(){
 
         // Must make better quality images in the future
@@ -70,6 +76,9 @@ public class Atoms extends JPanel {
         add(Connections);
     }
 
+    /**
+     * metoda dodające listenery do guzików
+     */
     private void add_listeners(){
         Coal.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -143,6 +152,10 @@ public class Atoms extends JPanel {
     }
 
 
+    /**
+     * metoda któa zwraca obecnie wybraną grafikę atomu
+     * @return jeżeli grafika jest wybrana to ją zwraca, w przeciwnym wypadku zwraca null
+     */
     public Image get_image() {
         if (selected_image != null) {
             return new ImageIcon(selected_image).getImage();
@@ -150,10 +163,18 @@ public class Atoms extends JPanel {
         return null;
     }
 
+    /**
+     * metoda która zwraca obecnie wybrany tryb: czy jest tryb połączeń czy tworzenia aotmów
+     * @return jezeli tryb połączeń jesty wybrany to zwraca true
+     */
     public boolean connection_mode() {
         return Connections.isSelected();
     }
 
+    /**
+     * metoda, która zwraca obecnie wybrany atom
+     * @return nazwa wybranego atomu
+     */
     public String get_name() {
         return selected_name;
     }

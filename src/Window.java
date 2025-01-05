@@ -2,6 +2,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.TimerTask;
 
+/**
+ * klasa odpowiedzialna za stworzenie całego okna gry
+ */
 public class Window extends JFrame {
     public JPanel main_menu;
     public CardLayout menu_layout;
@@ -27,6 +30,9 @@ public class Window extends JFrame {
         add(main_menu);
     }
 
+    /**
+     * metoda tworząca menu startowe widoczne po otworzeniu gry
+     */
     private void Init_start_menu() {
         JPanel p = new JPanel() {
             protected void paintComponent(Graphics g) {
@@ -86,13 +92,18 @@ public class Window extends JFrame {
         main_menu.add(p, "start menu");
     }
 
-
+    /**
+     * metoda tworząca menu gry gdzie rysuje się atomy
+     */
     private void Init_game_menu(){
         game_menu = new Game_window(menu_layout, main_menu);
         main_menu.add(game_menu, "game menu");
     }
 
-
+    /**
+     * metoda odpowiedzialna za zmiane obecnego poziomu
+     * @param level wybrany poziom
+     */
     private void switch_level(int level){
         if(game_menu.check_levels.level_unlocked >= level){
             if(game_menu.time_spent != 0) game_menu.timer_end();
@@ -108,6 +119,10 @@ public class Window extends JFrame {
             show_answer_label();
         }
     }
+
+    /**
+     * metoda odpowiedzialna za wyświetlenie napisu czy dany poziom został odblokowany
+     */
     private void show_answer_label(){
         message = new JLabel();
         JLabel answer_label1 = new JLabel();
@@ -132,6 +147,9 @@ public class Window extends JFrame {
         }, 500);
     }
 
+    /**
+     * metoda odpowiedzialna za dodanie listenerów go guzików
+     */
     private void add_listeners(){
         start.addActionListener(e -> {
             menu_layout.show(main_menu, "game menu");
@@ -143,6 +161,9 @@ public class Window extends JFrame {
         exit.addActionListener(e -> System.exit(0));
     }
 
+    /**
+     * metoda odpowiedzialna za stworzeniu menu do wyboru poziomów
+     */
     private void Init_level_menu(){
         level_menu = new JPanel() {
             protected void paintComponent(Graphics g) {

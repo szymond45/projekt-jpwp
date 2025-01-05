@@ -3,6 +3,9 @@ import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * klasa odpowiedzialna za stworzenie okna gdzie będziemy rysować związki
+ */
 public class Game_window extends JPanel {
     private JButton menu_button;
     private JButton hint_button;
@@ -30,6 +33,9 @@ public class Game_window extends JPanel {
         time_spent = 0;
     }
 
+    /**
+     * metoda odpowiedzialna za stworzenie guzików
+     */
     private void add_buttons(){
         menu_button = new JButton("menu");
         menu_button.setBounds(622, 886, 322, 100);
@@ -49,12 +55,10 @@ public class Game_window extends JPanel {
         confirm_button.setOpaque(false);
         confirm_button.setRolloverEnabled(false);
 
-        //Będzie można dodać obwódkę tekstu i by nie było na białym tle
         level_label = new JLabel("Stwórz H2O");
         level_label.setBounds(720, 0, 320, 80);
         level_label.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
-        //Będzie można dodać obwódkę tekstu i by nie było na białym tle
         time = new JLabel("time: 0s");
         time.setBounds(100,886,300,100);
         time.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -67,6 +71,9 @@ public class Game_window extends JPanel {
         add(level_label);
     }
 
+    /**
+     * metoda odpowiedzialna za dodanie listenerów do guzików
+     */
     private void Add_listeners(CardLayout menu_layout, JPanel main_menu) {
         menu_button.addActionListener(e -> {
             timer_end();
@@ -108,6 +115,9 @@ public class Game_window extends JPanel {
         });
     }
 
+    /**
+     * metoda odpowiedzialna za wystartowanie timera
+     */
     public void timer_begin(){
         time_spent = 0;
         timer = new Timer();
@@ -120,6 +130,9 @@ public class Game_window extends JPanel {
         }, 1000,1000);
     }
 
+    /**
+     * metoda zakończająca timer
+     */
     public void timer_end(){
         time_spent = 0;
         timer.cancel();
@@ -127,6 +140,9 @@ public class Game_window extends JPanel {
         time2.setText("time: " + time_spent + "s");
     }
 
+    /**
+     * metoda dodająca pole do rysowania
+     */
     private void add_drawing_field(){
         Atoms atoms = new Atoms();
         atoms.setBounds(-4, 0, 1024, 80);
@@ -140,6 +156,9 @@ public class Game_window extends JPanel {
         add(drawing_field);
     }
 
+    /**
+     * metoda dodająca okno menu z podpowiedziami
+     */
     private void add_hint_menu(CardLayout menu_layout, JPanel main_menu) {
         JPanel hint_menu = new JPanel();
         hint_menu.setLayout(null);
@@ -162,6 +181,9 @@ public class Game_window extends JPanel {
         main_menu.add(hint_menu, "hint menu");
     }
 
+    /**
+     * metoda dodająca okno menu po zakończeniu poziomów podstawowych
+     */
     private void add_intermission_menu(CardLayout menu_layout, JPanel main_menu) {
         JPanel intermission_menu = new JPanel();
         intermission_menu.setLayout(null);
@@ -214,6 +236,9 @@ public class Game_window extends JPanel {
         main_menu.add(intermission_menu, "intermission menu");
     }
 
+    /**
+     * metoda dodająca menu widoczne po zakończeniu wszystkich poziomów
+     */
     private void add_end_menu(CardLayout menu_layout, JPanel main_menu) {
         JPanel end_menu = new JPanel(){
             protected void paintComponent(Graphics g) {
@@ -250,6 +275,10 @@ public class Game_window extends JPanel {
         main_menu.add(end_menu, "end menu");
     }
 
+    /**
+     * metoda wyświetlająca napis czy odpowiedź była poprawna
+     * @param answer poprawnia/niepoprawna odpowiedź
+     */
     private void show_answer_label(int answer){
         answer_label = new JLabel();
         if (answer == 1){
@@ -276,6 +305,9 @@ public class Game_window extends JPanel {
         }, 2000);
     }
 
+    /**
+     * metoda zmieniająca wyświetlaną grafike w menu podpowiedzi
+     */
     private void edit_hint_menu(){
         switch (check_levels.current_level){
             case 1:
@@ -306,6 +338,9 @@ public class Game_window extends JPanel {
         }
     }
 
+    /**
+     * metoda zmieniająca wyświetlany związek do stworznia
+     */
     public void level_updater(){
         int level_number = check_levels.current_level;
         switch (level_number){

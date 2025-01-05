@@ -1,9 +1,18 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * klasa odpowiedzialna za sprawdzenia stworzonych atomów i połączeń między nimi
+ */
 public class Check_levels {
     private final Drawing_field drawing_field;
+    /**
+     * pole odpowiedzialne za przechowywanie odblokowanych poziomów
+     */
     public int level_unlocked;
+    /**
+     * pole które wskazuje na którym poziomie obecnie jest gracz
+     */
     public int current_level = 1;
     Check_atom_names check_atom_names = new Check_atom_names();
     Check_atom_connections check_atom_connections = new Check_atom_connections();
@@ -12,6 +21,12 @@ public class Check_levels {
         this.drawing_field = drawing_field;
         this.level_unlocked = level_unlocked;
     }
+
+    /**
+     * metoda, która zbiera nazwy atomów i połączenia między nimi z klasy Drawing_field i przekazuje je dalej do innych metod
+     * @param level obecny poziom
+     * @return false jeżeli wszystko się zgadza z wytycznymi, w przeciwnym wypadku true
+     */
     public boolean check_level(int level) {
         boolean error = false;
         List<Integer> atom_count = new ArrayList<>();
@@ -43,7 +58,15 @@ public class Check_levels {
         return error;
     }
 
-
+    /**
+     * metoda odpowiedzialna za sprawdzenie atomów, połączeń między nimi i maksymalnej liczby połączeń
+     * @param atom_count lista z liczbą atomów danego typu
+     * @param atom_names lista z nazwami atomó
+     * @param level obecny poziom
+     * @param connection_names lista z nazwami połączeń między atomami
+     * @param connection_count lista z liczbą połączeń między danymi atomami
+     * @return false jeżeli wszystko się zgadza z wytycznymi, w przeciwnym wypadku true
+     */
     private boolean check_atoms(List<Integer> atom_count, List<String> atom_names, int level, List<String> connection_names, List<Integer> connection_count) {
         boolean error = false;
         if (level == 1) {
@@ -153,6 +176,10 @@ public class Check_levels {
         return error;
     }
 
+    /**
+     * metoda odpowiedzialna za sprawdzenie maksymalnej liczby połączeń danego atomu
+     * @return false jeżeli wszystko się zgadza z wytycznymi, w przeciwnym wypadku true
+     */
     private boolean check_max_connections(){
         int sum = 0;
         int sum2 = 0;
@@ -224,7 +251,9 @@ public class Check_levels {
         return error;
     }
 
-    // below: checking atoms on screen and connections between them, a lot of method overrides
+    /**
+     * klasa odpowiedzialna za sprawdzanie liczby atomów danego typu
+     */
     private static class Check_atom_names{
         private boolean check_atom_names(List<String> atom_names, List<Integer> atom_count, String a1, int n1, String a2, int n2){
             boolean error = false;
@@ -280,6 +309,9 @@ public class Check_levels {
 
     }
 
+    /**
+     * klasa odpowiedzialna za sprawdzanie liczby połączeń danego typu
+     */
     private static class Check_atom_connections{
         private boolean check_atom_connections(List<String> connection_names, List<Integer> connection_count, String a1, String a2, int n1){
             boolean error = false;
